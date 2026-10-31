@@ -3,6 +3,9 @@ import random
 
 SIZE = 500
 ALP = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+KEY_PART_LENGHT = 5
+KEY_PART_COUNT = 5
+KEY_PART_SHIFTS = [3, -5, 1, 1]
 
 def render_frames(parent, img):
     body = tk.Frame(parent, bg="#D11EB9")
@@ -21,13 +24,13 @@ def render_image(parent, img):
 
 
 def render_footer(parent):
-    button_random = tk.Button(parent, text="Generate first part", 
-                              font=("", 14))
     lbl_part = tk.Label(parent, text="Entry first part:", 
                         font=("", 14), bg="#D11EB9")
     entry_part = tk.Entry(parent, font=("", 14))
     lbl_key = tk.Label(parent, text=f"key:-", 
                        font=("", 14), bg="#D11EB9")
+    button_random = tk.Button(parent, text="Generate first part", font=("", 14),
+                               command=lambda: generate_first_part(entry_part))
     button_gen = tk.Button(parent, text="Generate key", font=("", 14), 
                                command=lambda: generate_key(entry_part, lbl_key))
 
@@ -41,9 +44,10 @@ def render_footer(parent):
 def generate_key(entry, lbl):
     part_one = entry.get()
     if check_entry(part_one):
-        part_two = generate_part(part_one, 3)
-        part_three = generate_part(part_one, -5)
-        key = f'{part_one}-{part_two}-{part_three}'
+        key = str(part_one)
+        for part_num in range(KEY_PART_COUNT-1):
+            part = generate_part(part_one, KEY_PART_SHIFTS[part_num])
+            key += f'-{part}'
     else:
         key = 'Wrong first part'
     lbl.config(text=f'key:{key}')
@@ -53,7 +57,7 @@ def generate_part(original_part, right_shift):
     new_part = ''
     for letter in original_part:
         new_index = ALP.index(letter) + right_shift
-        if new_index <= len(ALP):
+        if new_index < len(ALP):
             new_part += ALP[new_index]
         else:
             new_part += ALP[new_index - len(ALP)]
@@ -61,7 +65,7 @@ def generate_part(original_part, right_shift):
 
 
 def check_entry(entry):
-    if len(entry) != 5:
+    if len(entry) != KEY_PART_LENGHT:
         return False
     for letter in entry:
         if letter not in ALP:
@@ -69,6 +73,14 @@ def check_entry(entry):
     else:
         return True
     return False
+
+
+def generate_first_part(entry):
+    first_part = ''
+    for i in range(KEY_PART_LENGHT):
+        first_part += ALP[random.randint(0, len(ALP) - 1)]
+    entry.delete(0, tk.END)
+    entry.insert(0, first_part)
 
 
 if __name__ == '__main__':
