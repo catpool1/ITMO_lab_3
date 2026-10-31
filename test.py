@@ -1,6 +1,6 @@
 import tkinter as tk
 import random
-import chat
+# import chat
 import threading
 
 
@@ -41,8 +41,8 @@ def send_msg(body, entry_msg, entry_name):
     msg = f"{name}:\n{msg_text}"
     entry_msg.delete(0, tk.END)
     # send
-    chat.send_message(msg)
-    # render_msg(body, msg)
+    # chat.send_message(msg)
+    render_msg(body, msg)
 
 
 def render_msg(body, msg):
@@ -77,5 +77,5 @@ if __name__ == '__main__':
     root.geometry(f'{SIZE}x{SIZE}')
     root.title('Viber')
     body = render_frames(root)
-    threading.Thread(target=chat.read_msgs, args=(render_msg, body), daemon=True).start()
+    # threading.Thread(target=chat.read_msgs, args=(render_msg, body), daemon=True).start()
     root.mainloop()
