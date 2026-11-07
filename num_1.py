@@ -1,11 +1,12 @@
 import tkinter as tk
 import random
+import winsound
 
 SIZE = 500
 ALP = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 KEY_PART_LENGHT = 5
-KEY_PART_COUNT = 5
-KEY_PART_SHIFTS = [3, -5, 1, 1]
+KEY_PART_COUNT = 3
+KEY_PART_SHIFTS = [3, -5]
 
 def render_frames(parent, img):
     body = tk.Frame(parent, bg="#D11EB9")
@@ -24,7 +25,7 @@ def render_image(parent, img):
 
 
 def render_footer(parent):
-    lbl_part = tk.Label(parent, text="Entry first part:", 
+    lbl_part = tk.Label(parent, text="Enter first part:", 
                         font=("", 14), bg="#D11EB9")
     entry_part = tk.Entry(parent, font=("", 14))
     lbl_key = tk.Label(parent, text=f"key:-", 
@@ -84,6 +85,9 @@ def generate_first_part(entry):
 
 
 if __name__ == '__main__':
+    winsound.PlaySound("Tom_Petty_-_Love_Is_A_Long_Road.wav", 
+                       winsound.SND_FILENAME | winsound.SND_ASYNC | winsound.SND_LOOP)
+
     root = tk.Tk()
     root.geometry(f'{SIZE}x{SIZE}')
     root.title('gtaVI_freekeys.com')
