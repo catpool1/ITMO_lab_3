@@ -8,6 +8,11 @@ KEY_PART_LENGHT = 5
 KEY_PART_COUNT = 3
 KEY_PART_SHIFTS = [3, -5]
 
+
+key = '-'
+pos = 0
+
+
 def render_frames(parent, img):
     body = tk.Frame(parent, bg="#D11EB9")
     footer = tk.Frame(parent, bg="#D11EB9")
@@ -33,7 +38,7 @@ def render_footer(parent):
     button_random = tk.Button(parent, text="Generate first part", font=("", 14),
                                command=lambda: generate_first_part(entry_part))
     button_gen = tk.Button(parent, text="Generate key", font=("", 14), 
-                               command=lambda: generate_key(entry_part, lbl_key))
+                               command=lambda: generate_key(entry_part))
 
     lbl_key.pack(side=tk.BOTTOM, fill=tk.X)
     entry_part.pack(side=tk.BOTTOM, fill=tk.X)
@@ -41,8 +46,13 @@ def render_footer(parent):
     button_gen.pack(side=tk.LEFT, fill=tk.X, expand=True)
     button_random.pack(side=tk.RIGHT, fill=tk.X)
 
+    animate(parent, lbl_key)
 
-def generate_key(entry, lbl):
+
+def generate_key(entry):
+    global key, pos
+    pos = 0
+
     part_one = entry.get()
     if check_entry(part_one):
         key = str(part_one)
@@ -51,7 +61,6 @@ def generate_key(entry, lbl):
             key += f'-{part}'
     else:
         key = 'Wrong first part'
-    lbl.config(text=f'key:{key}')
 
 
 def generate_part(original_part, right_shift):
@@ -84,6 +93,19 @@ def generate_first_part(entry):
     entry.insert(0, first_part)
 
 
+def animate(parent, lbl):
+    global key, pos
+
+    if pos < len(key):
+        pos += 1
+
+    cur_key = key[:pos]
+
+    lbl.config(text=f'key:{cur_key}')
+
+    parent.after(100, lambda: animate(parent, lbl))
+
+
 if __name__ == '__main__':
     winsound.PlaySound("Tom_Petty_-_Love_Is_A_Long_Road.wav", 
                        winsound.SND_FILENAME | winsound.SND_ASYNC | winsound.SND_LOOP)
@@ -91,7 +113,9 @@ if __name__ == '__main__':
     root = tk.Tk()
     root.geometry(f'{SIZE}x{SIZE}')
     root.title('gtaVI_freekeys.com')
+
     img = tk.PhotoImage(file='main_bg.png')
     img = img.subsample(2, 2)
     render_frames(root, img)
+
     root.mainloop()
