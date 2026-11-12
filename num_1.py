@@ -115,7 +115,7 @@ if __name__ == '__main__':
     root.title('gtaVI_freekeys.com')
 
     img = tk.PhotoImage(file='main_bg.png')
-    img = img.subsample(2, 2)
+    img = img.subsample(int(1200/SIZE), int(1200/SIZE))
     render_frames(root, img)
 
     root.mainloop()
