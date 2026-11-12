@@ -2,12 +2,13 @@ import tkinter as tk
 import random
 import winsound
 
+
 SIZE = 500
 ALP = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 KEY_PART_LENGHT = 5
 KEY_PART_COUNT = 3
 KEY_PART_SHIFTS = [3, -5]
-
+DELAY = 100
 
 key = '-'
 pos = 0
@@ -35,10 +36,11 @@ def render_footer(parent):
     entry_part = tk.Entry(parent, font=("", 14))
     lbl_key = tk.Label(parent, text=f"key:-", 
                        font=("", 14), bg="#D11EB9")
-    button_random = tk.Button(parent, text="Generate first part", font=("", 14),
-                               command=lambda: generate_first_part(entry_part))
+    button_random = tk.Button(parent, text="Generate first part", 
+                              font=("", 14), 
+                              command=lambda: generate_first_part(entry_part))
     button_gen = tk.Button(parent, text="Generate key", font=("", 14), 
-                               command=lambda: generate_key(entry_part))
+                              command=lambda: generate_key(entry_part))
 
     lbl_key.pack(side=tk.BOTTOM, fill=tk.X)
     entry_part.pack(side=tk.BOTTOM, fill=tk.X)
@@ -103,7 +105,7 @@ def animate(parent, lbl):
 
     lbl.config(text=f'key:{cur_key}')
 
-    parent.after(100, lambda: animate(parent, lbl))
+    parent.after(DELAY, lambda: animate(parent, lbl))
 
 
 if __name__ == '__main__':
